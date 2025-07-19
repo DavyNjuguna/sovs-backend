@@ -1,17 +1,19 @@
-from flask import Flask
-from flask_cors import CORS
-from auth import auth_bp
-from vote import vote_bp
+
+from flask import Flask, request, jsonify
+import os
 
 app = Flask(__name__)
-CORS(app)
-
-app.register_blueprint(auth_bp, url_prefix='/auth')
-app.register_blueprint(vote_bp, url_prefix='/vote')
 
 @app.route('/')
 def home():
-    return {'message': 'SOVS API is running'}
+    return 'SOVS Backend is Running!'
+
+@app.route('/healthz')
+def health():
+    return 'OK'
+
+# Add your other routes and logic here...
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0', port=port)
